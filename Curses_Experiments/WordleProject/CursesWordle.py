@@ -86,19 +86,26 @@ def main(stdscr):
             stdscr.getch()
             break
 
-        guesses.append(typed_word)
-        attempts -= 1
 
+        #nonexistent word
+        if (''.join(typed_word) in data):
+            guesses.append(typed_word)
+            attempts -= 1
+        
+        if (''.join(typed_word) not in data):
+            stdscr.move(len(guesses) + 1, 33)
+            stdscr.addstr(len(guesses) + 1, cursor_x, '     ')
+            stdscr.move(len(guesses) + 1, 33)
+            stdscr.refresh()
+            
         #losing
         if attempts == 0:
             stdscr.addstr(9,0, f"You ran out of attempts! The word is : {target_word}")
             stdscr.refresh()
             stdscr.getch()
 
-        #nonexistent word
-        if (''.join(typed_word) not in data):
-            attempts += 1
-            
+        
+
 
 
 
