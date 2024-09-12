@@ -1,5 +1,11 @@
 import curses
 import random
+import json
+
+# Open and read the JSON file
+with open('final-list.json', 'r') as file:
+    data = json.load(file)
+
 
 def main(stdscr):
     curses.start_color()
@@ -33,10 +39,13 @@ def main(stdscr):
 
         for i, guess in enumerate(guesses): #for each word that has been typed
             for k, letter in enumerate(guess): #for each letter in that word
+
                 if letter == target_word[k]: #if the letter is in the same position
                     stdscr.addch(i+1, k, letter, curses.color_pair(1)) #write it in green in the corresponding coloumn, i+1 ensures we are updating the correct row. If there are 3 guesses, we are updating the fourth row, since the first row is our title.
+                
                 elif letter in target_word and letter!=target_word[k]:
                     stdscr.addch(i + 1, k, letter, curses.color_pair(2))
+
                 else:
                     stdscr.addch(i + 1, k, letter, curses.color_pair(3))
             stdscr.refresh()
@@ -46,6 +55,7 @@ def main(stdscr):
         stdscr.addstr(len(guesses) + 1, 6, "Enter your 5-letter guess: ") #len(guesses)+1 ensures this is written on the next line, every time there is a new guess added to the list
 
         while len(typed_word)<5:
+
             character_num = stdscr.getch()
 
             #handling backspace
@@ -84,6 +94,12 @@ def main(stdscr):
             stdscr.addstr(9,0, f"You ran out of attempts! The word is : {target_word}")
             stdscr.refresh()
             stdscr.getch()
+
+        #nonexistent word
+        if (''.join(typed_word) not in data):
+            attempts += 1
+            
+
 
 
 
