@@ -74,6 +74,15 @@ def main(stdscr):
                 typed_word.append(typed_character)
                 stdscr.addch(len(guesses) + 1, cursor_x, typed_character) 
                 cursor_x += 1  # Move cursor forward
+
+
+            #handling quitting
+            if character_num == 27:
+                stdscr.addstr(9,0, f"Game quit! The word is : {target_word}")
+                stdscr.refresh()
+                stdscr.getch()
+                return
+                
             
             stdscr.refresh()
 
@@ -100,9 +109,13 @@ def main(stdscr):
             
         #losing
         if attempts == 0:
-            stdscr.addstr(9,0, f"You ran out of attempts! The word is : {target_word}")
+            stdscr.addstr(9,0, f"Game over! The word is : {target_word}")
             stdscr.refresh()
             stdscr.getch()
+            break
+        
+
+
 
         
 
