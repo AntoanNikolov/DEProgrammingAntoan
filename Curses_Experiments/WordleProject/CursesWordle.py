@@ -3,8 +3,28 @@ import random
 import json
 
 # Open and read the JSON file
-with open('final-list.json', 'r') as file:
+with open('possible_words.json', 'r') as file:
     data = json.load(file)
+
+with open('wordle_words.json', 'r') as file:
+    WORDS = json.load(file)
+
+
+#I moved this into a function for readability
+def text_color(stdscr, guesses, target_word):
+    for i, guess in enumerate(guesses): #for each word that has been typed
+            for k, letter in enumerate(guess): #for each letter in that word
+
+                if letter == target_word[k]: #if the letter is in the same position
+                    stdscr.addch(i+1, k, letter, curses.color_pair(1)) #write it in green in the corresponding coloumn, i+1 ensures we are updating the correct row. If there are 3 guesses, we are updating the fourth row, since the first row is our title.
+                
+                elif letter in target_word and letter!=target_word[k]:
+                    stdscr.addch(i + 1, k, letter, curses.color_pair(2))
+
+                else:
+                    stdscr.addch(i + 1, k, letter, curses.color_pair(3))
+            stdscr.refresh()
+
 
 
 def main(stdscr):
@@ -12,19 +32,6 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK) #correct
     curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK) #wrong position
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #incorrect input
-
-
-    #i used chatGPT to give me these words. I can use a much larger JSON file but I am using a list in this case for the sake of simplicity
-    WORDS = [
-    'arise', 'slate', 'crate', 'adieu', 'great', 'brine', 'stare', 'snare', 
-    'stone', 'store', 'shine', 'whale', 'plane', 'crane', 'flame', 'pride', 
-    'grape', 'steal', 'blame', 'drain', 'flair', 'frown', 'gloat', 'glare', 
-    'groan', 'mourn', 'grasp', 'brand', 'shame', 'crash', 'flash', 'climb', 
-    'frame', 'shard', 'grill', 'plain', 'charm', 'scorn', 'crisp', 'flock', 
-    'grind', 'brick', 'strap', 'grill', 'prize', 'flour', 'brisk', 'chime', 
-    'prong', 'sloth', 'cloak', 'frail', 'drake', 'gloss', 'shark', 'glove', 
-    'stake', 'brush', 'broom', 'shine'
-    ]
 
     target_word = random.choice(WORDS)
 
@@ -37,18 +44,7 @@ def main(stdscr):
     while attempts>0:
         stdscr.addstr(0, 0, f"Welcome to Wordle! You have {attempts} attempts remaining.")
 
-        for i, guess in enumerate(guesses): #for each word that has been typed
-            for k, letter in enumerate(guess): #for each letter in that word
-
-                if letter == target_word[k]: #if the letter is in the same position
-                    stdscr.addch(i+1, k, letter, curses.color_pair(1)) #write it in green in the corresponding coloumn, i+1 ensures we are updating the correct row. If there are 3 guesses, we are updating the fourth row, since the first row is our title.
-                
-                elif letter in target_word and letter!=target_word[k]:
-                    stdscr.addch(i + 1, k, letter, curses.color_pair(2))
-
-                else:
-                    stdscr.addch(i + 1, k, letter, curses.color_pair(3))
-            stdscr.refresh()
+        text_color(stdscr, guesses, target_word)
     
         typed_word = []
         cursor_x=33 #start writing here
@@ -73,7 +69,7 @@ def main(stdscr):
                 typed_character = chr(character_num).lower()
                 typed_word.append(typed_character)
                 stdscr.addch(len(guesses) + 1, cursor_x, typed_character) 
-                cursor_x += 1  # Move cursor forward
+                cursor_x += 1  #Move cursor forward
 
 
             #handling quitting
@@ -90,25 +86,31 @@ def main(stdscr):
 
         #handling winning
         if typed_word == target_word:
+            text_color(stdscr, guesses, target_word)
             stdscr.addstr(8, 0, "Congratulations! You guessed the word!")
             stdscr.refresh()
             stdscr.getch()
             break
 
 
-        #nonexistent word
+        
         if (''.join(typed_word) in data):
             guesses.append(typed_word)
             attempts -= 1
+            
         
+        #nonexistent word
         if (''.join(typed_word) not in data):
-            stdscr.move(len(guesses) + 1, 33)
-            stdscr.addstr(len(guesses) + 1, cursor_x, '     ')
-            stdscr.move(len(guesses) + 1, 33)
+            stdscr.move(len(guesses) + 1, 33) 
+            stdscr.addstr(len(guesses) + 1, 33, ' '*5)  #remove invalid input
+            stdscr.move(len(guesses) + 1, cursor_x)  #move cursor back to start of line
             stdscr.refresh()
+
             
         #losing
         if attempts == 0:
+            text_color(stdscr, guesses, target_word) #calling this function again or the last attempt will not get colored
+            stdscr.addstr(0, 0, f"Welcome to Wordle! You have 0 attempts remaining.") #the screen would show 1 attempts, despite all attempts being used up. This line isn't very efficient but it works
             stdscr.addstr(9,0, f"Game over! The word is : {target_word}")
             stdscr.refresh()
             stdscr.getch()
