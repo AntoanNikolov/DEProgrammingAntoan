@@ -42,7 +42,7 @@ def main(stdscr):
     stdscr.refresh()
 
     while attempts>0:
-        stdscr.addstr(0, 0, f"Welcome to Wordle! You have {attempts} attempts remaining.")
+        stdscr.addstr(0, 0, f"Welcome to Wordle! You have {attempts} attempts remaining. Esc to quit.")
 
         text_color(stdscr, guesses, target_word)
     
