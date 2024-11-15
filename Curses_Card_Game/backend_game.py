@@ -1,1 +1,0 @@
-#Antoan - Currently working inside this python file to make the game work without the curses visual element for now
