@@ -16,7 +16,7 @@
 - In the example of an ORM object:
   - class User(models.Model):
     name = models.CharField(max_length=128)
-    email = models.CharField(max_length=128). 
+    email = models.CharField(max_length=128).  
     Dr. Chuck draws a line to models.Model and mentions what that is. What does he say? Of which OOP feature is this an example?   
   - Answer
 
