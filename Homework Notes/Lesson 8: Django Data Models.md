@@ -11,22 +11,22 @@
   - "80% of the most common things you would do with a database are easily done with an ORM."
 
 - What is the name of the file in which the ORM data objects are defined?  
-  - Answer
+  - models.py
 
 - In the example of an ORM object:
   - class User(models.Model):
     name = models.CharField(max_length=128)
     email = models.CharField(max_length=128).  
     Dr. Chuck draws a line to models.Model and mentions what that is. What does he say? Of which OOP feature is this an example?   
-  - Answer
+  - We are extending models.Model using class inheritance. We are inheriting many lines of code which are already written for us.
 
 - What two commands do you need to run to go from an ORM to deployment in a database? 
-  - Answer
+  - python3 manage.py makemigrations, python3 manage.py migrate
 
 - What does running python3 manage.py shell do? Be specific!    
-  - Answer
+  - Creates a python shell with Django functionality, while also utilizing databases in the django application.
 
 - In the example session Dr. Chuck talks about, he creates a new user named Kristen with email address kf@umich.edu. Where is this user created when:  
 u = User(name='Kristen', email='kf@umich.edu')  
 is run? What command needs to be used to add this new user to the database?  
-  - Answer
+  - It is stored in the u variable. u.save() must be run to add this user to the database.
