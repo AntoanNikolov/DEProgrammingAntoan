@@ -1,14 +1,14 @@
 - Dr. Chuck makes a statement about the learning curve for SQL. What exactly does he say?  
-  - Answer
+  - "You can learn the first 60% of SQL in about three hours, the last 40% is a lifetime."
 
 - In your own words, how would you define Object-relational mapping (ORM)? How will we use it in Django and what specifically will it do?  
-  -   Answer
+  -   A programming technique that allows for databases to be interacted with, using classes and objects in a general programming language. In Django, the ORM will be used to define Python classes as models that represent database tables and perform CRUD operations using Python, rather than writing the SQL itself. A class represents a table in a database, while an object is an entry/row in that database.
 
 - What does Dr. Chuck say are the advantages of the ORM? What disadvantages (if any) does it have?    
-  - Answer
+  - An ORM can be used to complete around "80%" of operations one would do to a database. Additional benefits are portability (different SQL services), simplicity, and automatic handling of migrations and table schema generation. However, Chuck mentions that more complex concepts tend not to be done with an ORM. 
 
-- Dr. Chucks that most (he mentions a percentage) of the things you want to do with SQL can be done effectively with an ORM. What exactly does he say?    
-  - Answer
+- Dr. Chucks says that most (he mentions a percentage) of the things you want to do with SQL can be done effectively with an ORM. What exactly does he say?    
+  - "80% of the most common things you would do with a database are easily done with an ORM."
 
 - What is the name of the file in which the ORM data objects are defined?  
   - Answer
