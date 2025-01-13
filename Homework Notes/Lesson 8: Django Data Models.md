@@ -18,7 +18,7 @@
     name = models.CharField(max_length=128)
     email = models.CharField(max_length=128)
     Dr. Chuck draws a line to models.Model and mentions what that is. What does he say? Of which OOP feature is this an example?   
-    - Answer
+  - Answer
 
 - What two commands do you need to run to go from an ORM to deployment in a database? 
   - Answer
